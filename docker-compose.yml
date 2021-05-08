@@ -1,0 +1,15 @@
+version: '3.4'
+services:
+  intensivao-catalog:
+    image: cams7/intensivao-catalog:v001
+    environment:
+      - PRODUCT_URL=http://intensivao-product:8081
+    ports:
+      - "8080:8080"
+    depends_on:
+      - intensivao-product
+
+  intensivao-product:
+    image: cams7/intensivao-product:v001
+    ports:
+      - "8081:8081"    
