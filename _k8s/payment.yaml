@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payment-deployment
+spec:
+  selector:
+    matchLabels:
+      app: payment
+
+  template:
+    metadata:
+      labels:
+        app: payment
+    spec:
+      containers:
+        - name: payment
+          image: cams7/intensivao-payment:v001
+          env:
+            - name: RABBITMQ_DEFAULT_USER
+              value: "rabbitmq"
+            - name: RABBITMQ_DEFAULT_PASS
+              value: "rabbitmq"            
+            - name: RABBITMQ_DEFAULT_HOST
+              value: "rabbitmq-service"
+            - name: RABBITMQ_DEFAULT_PORT
+              value: "5672"
+            - name: RABBITMQ_DEFAULT_VHOST
+              value: "/"

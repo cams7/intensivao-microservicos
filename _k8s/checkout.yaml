@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: checkout-deployment
+spec:
+  selector:
+    matchLabels:
+      app: checkout
+
+  template:
+    metadata:
+      labels:
+        app: checkout
+    spec:
+      containers:
+        - name: checkout
+          image: cams7/intensivao-checkout:v001
+          ports:
+            - containerPort: 8082
+          env:
+            - name: PRODUCT_URL
+              value: "http://product-service:8081"
+            - name: RABBITMQ_DEFAULT_USER
+              value: "rabbitmq"
+            - name: RABBITMQ_DEFAULT_PASS
+              value: "rabbitmq"            
+            - name: RABBITMQ_DEFAULT_HOST
+              value: "rabbitmq-service"
+            - name: RABBITMQ_DEFAULT_PORT
+              value: "5672"
+            - name: RABBITMQ_DEFAULT_VHOST
+              value: "/"
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: checkout-service
+spec:
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 8082
+  selector:
+    app: checkout
