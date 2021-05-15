@@ -35,8 +35,9 @@ services:
     networks:
       - intensivao-network
 
-  intensivao-order:
+  intensivao-order-checkout:
     image: cams7/intensivao-order:v001
+    command: ./order -opt checkout
     environment:
       - PRODUCT_URL=http://intensivao-product:8081
       - RABBITMQ_DEFAULT_USER=rabbitmq
@@ -49,6 +50,37 @@ services:
       - intensivao-product
       - rabbitmq
       - redis
+    networks:
+      - intensivao-network
+
+  intensivao-order-payment:
+    image: cams7/intensivao-order:v001
+    command: ./order -opt payment
+    environment:
+      - PRODUCT_URL=http://intensivao-product:8081
+      - RABBITMQ_DEFAULT_USER=rabbitmq
+      - RABBITMQ_DEFAULT_PASS=rabbitmq
+      - RABBITMQ_DEFAULT_HOST=rabbitmq
+      - RABBITMQ_DEFAULT_PORT=5672
+      - RABBITMQ_DEFAULT_VHOST=/
+      - REDIS_HOST=redis:6379
+    depends_on:
+      - intensivao-product
+      - rabbitmq
+      - redis
+    networks:
+      - intensivao-network
+
+  intensivao-payment:
+    image: cams7/intensivao-payment:v001
+    environment:
+      - RABBITMQ_DEFAULT_USER=rabbitmq
+      - RABBITMQ_DEFAULT_PASS=rabbitmq
+      - RABBITMQ_DEFAULT_HOST=rabbitmq
+      - RABBITMQ_DEFAULT_PORT=5672
+      - RABBITMQ_DEFAULT_VHOST=/
+    depends_on:
+      - rabbitmq
     networks:
       - intensivao-network
 

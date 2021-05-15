@@ -2,14 +2,15 @@ package main
 
 import (
 	"encoding/json"
+	"flag"
 	"fmt"
 	"order/db"
 	"order/queue"
 	"os"
 	"time"
 
+	uuid "github.com/nu7hatch/gouuid"
 	"github.com/streadway/amqp"
-	"github.com/nu7hatch/gouuid"
 )
 
 type Product struct {
@@ -35,22 +36,22 @@ func init() {
 }
 
 func main() {
-	//var param string
-	//flag.StringVar(&param, "opt", "", "Usage")
-	//flag.Parse()
+	var param string
+	flag.StringVar(&param, "opt", "", "Usage")
+	flag.Parse()
 
 	in := make(chan []byte)
 	connection := queue.Connect()
 
-	//switch param {
-	//case "checkout":
-	queue.StartConsuming("checkout_queue", connection, in)
-	//O channel está sendo esvaziado
-	for payload := range in {
-		notifyOrderCreated(createOrder(payload), connection)
-		fmt.Println(string(payload))
-	}
-	/*case "payment":
+	switch param {
+	case "checkout":
+		queue.StartConsuming("checkout_queue", connection, in)
+		//O channel está sendo esvaziado
+		for payload := range in {
+			notifyOrderCreated(createOrder(payload), connection)
+			fmt.Println(string(payload))
+		}
+	case "payment":
 		queue.StartConsuming("payment_queue", connection, in)
 		var order Order
 		for payload := range in {
@@ -58,7 +59,7 @@ func main() {
 			saveOrder(order)
 			fmt.Println("Payment: ", string(payload))
 		}
-	}*/
+	}
 }
 
 func createOrder(payload []byte) Order {
