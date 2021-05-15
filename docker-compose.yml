@@ -35,6 +35,23 @@ services:
     networks:
       - intensivao-network
 
+  intensivao-order:
+    image: cams7/intensivao-order:v001
+    environment:
+      - PRODUCT_URL=http://intensivao-product:8081
+      - RABBITMQ_DEFAULT_USER=rabbitmq
+      - RABBITMQ_DEFAULT_PASS=rabbitmq
+      - RABBITMQ_DEFAULT_HOST=rabbitmq
+      - RABBITMQ_DEFAULT_PORT=5672
+      - RABBITMQ_DEFAULT_VHOST=/
+      - REDIS_HOST=redis:6379
+    depends_on:
+      - intensivao-product
+      - rabbitmq
+      - redis
+    networks:
+      - intensivao-network
+
   rabbitmq:
     image: rabbitmq:3-management-alpine
     container_name: 'rabbitmq'
@@ -49,6 +66,13 @@ services:
 #    volumes:
 #      - /home/cams7/Desenv/Youtube/FullCycle/intensivao-microservicos/rabbitmq/data/:/var/lib/rabbitmq/
 #      - /home/cams7/Desenv/Youtube/FullCycle/intensivao-microservicos/rabbitmq/log/:/var/log/rabbitmq
+    networks:
+      - intensivao-network
+  
+  redis:
+    image: redis
+    ports: 
+      - "6379:6379"
     networks:
       - intensivao-network
 
