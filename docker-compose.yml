@@ -1,14 +1,14 @@
 version: '3.4'
 services:
   intensivao-product:
-    image: cams7/intensivao-product:v001
+    image: cams7/intensivao-product:v002
     ports:
       - "8081:8081"
     networks:
       - intensivao-network
 
   intensivao-catalog:
-    image: cams7/intensivao-catalog:v001
+    image: cams7/intensivao-catalog:v002
     environment:
       - PRODUCT_URL=http://intensivao-product:8081
     ports:
@@ -19,7 +19,7 @@ services:
       - intensivao-network
       
   intensivao-checkout:
-    image: cams7/intensivao-checkout:v001
+    image: cams7/intensivao-checkout:v002
     environment:
       - PRODUCT_URL=http://intensivao-product:8081
       - RABBITMQ_DEFAULT_USER=rabbitmq
@@ -36,7 +36,7 @@ services:
       - intensivao-network
 
   intensivao-order-checkout:
-    image: cams7/intensivao-order:v001
+    image: cams7/intensivao-order:v002
     command: ./order -opt checkout
     environment:
       - PRODUCT_URL=http://intensivao-product:8081
@@ -54,7 +54,7 @@ services:
       - intensivao-network
 
   intensivao-order-payment:
-    image: cams7/intensivao-order:v001
+    image: cams7/intensivao-order:v002
     command: ./order -opt payment
     environment:
       - PRODUCT_URL=http://intensivao-product:8081
@@ -72,7 +72,7 @@ services:
       - intensivao-network
 
   intensivao-payment:
-    image: cams7/intensivao-payment:v001
+    image: cams7/intensivao-payment:v002
     environment:
       - RABBITMQ_DEFAULT_USER=rabbitmq
       - RABBITMQ_DEFAULT_PASS=rabbitmq

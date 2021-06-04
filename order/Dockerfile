@@ -1,6 +1,9 @@
-FROM golang:1.13
+FROM golang:1.16.2-buster AS builder
+WORKDIR /app
+ADD . .
+RUN CGO_ENABLED=0 GOOS=linux go build -a --ldflags '-extldflags "-static"' -tags "netgo" -installsuffix netgo -o order
 
-WORKDIR /go/src/
-COPY . .
-RUN GOOS=linux go build -ldflags="-s -w"
+FROM scratch
+WORKDIR /app
+COPY --from=builder /app/order .
 CMD ["./order"]
