@@ -1,4 +1,4 @@
-version: '3.4'
+version: '3.7'
 services:
   intensivao-product:
     image: cams7/intensivao-product:v002
