@@ -2,9 +2,33 @@ pipeline {
     agent any
 
     stages {
-        stage('Hello world') {
+        stage('Get source') {
             steps {
-                echo 'Hello world'
+                git url: 'https://github.com/cams7/intensivao-microservicos.git', branch: 'main'
+            }
+        }
+
+        stage('Docker build') {
+            steps {
+                script {
+                    dockerapp = docker.build(
+                        "cams7/intensivao-product:${env.BUILD_ID}",
+                        '-f ./products/Dockerfile .'
+                    )
+                }
+            }
+        }
+
+        stage('Docker push') {
+            steps {
+                script {
+                    docker.withRegistry(
+                        'https://registry.hub.docker.com',
+                        'dockerhub'
+                    )
+                    dockerapp.push('lastest')
+                    dockerapp.push("${env.BUILD_ID}")
+                }
             }
         }
     }
