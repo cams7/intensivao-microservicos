@@ -5,7 +5,7 @@ pipeline {
 //        parallel {
         stage('Product') {
             agent {
-                label 'product'
+                docker 'intensivao-product'
             }
 
             stages {    
