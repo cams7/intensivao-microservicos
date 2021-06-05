@@ -21,7 +21,8 @@ pipeline {
 
         stage('Docker push') {
             steps {
-                script {
+                echo 'Hello world'
+                /*script {
                     docker.withRegistry(
                         'https://registry.hub.docker.com',
                         'dockerhub'
@@ -29,7 +30,7 @@ pipeline {
                         dockerapp.push('lastest')
                         dockerapp.push("${env.BUILD_ID}")
                     }
-                }
+                }*/
             }
         }
     }
