@@ -19,7 +19,7 @@ pipeline {
             }
         }
 
-        /*stage('Docker push') {
+        stage('Docker push') {
             steps {
                 script {
                     docker.withRegistry(
@@ -31,6 +31,6 @@ pipeline {
                     }
                 }*
             }
-        }*/
+        }
     }
 }
