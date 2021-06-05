@@ -31,7 +31,7 @@ pipeline {
                                 'https://registry.hub.docker.com',
                                 'dockerhub'
                             ) {
-                                dockerapp.push('lastest')
+                                dockerapp.push('latest')
                                 dockerapp.push("${env.BUILD_ID}")
                             }
                         }
@@ -40,9 +40,10 @@ pipeline {
 
                 stage('Kubernetes deploy') {
                     agent {
-                        kubernetes {
+                        label 'kubepod'
+                        /*kubernetes {
                             cloud 'kubernetes'
-                        }                        
+                        }*/                        
                     }
 
                     steps {
