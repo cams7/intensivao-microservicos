@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: product
-          image: cams7/intensivao-product:v001
+          image: cams7/intensivao-product:lastest
           ports:
             - containerPort: 8081
 

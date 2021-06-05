@@ -37,6 +37,21 @@ pipeline {
                         }
                     }
                 }
+
+                stage('Kubernetes deploy') {
+                    agent {
+                        kubernetes {
+                            cloud 'kubernetes'
+                        }                        
+                    }
+
+                    steps {
+                        kubernetesDeploy(
+                            configs: '**/_k8s/product.yaml',
+                            kubeconfigId: 'kubeconfig'
+                        )        
+                    }
+                }
             }
         }
 //        }
