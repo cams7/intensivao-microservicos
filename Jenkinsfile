@@ -4,9 +4,7 @@ pipeline {
     stages {
 //        parallel {
         stage('Product') {
-            agent {
-                docker 'intensivao-product'
-            }
+            agent any
 
             stages {    
                 stage('Get source') {
