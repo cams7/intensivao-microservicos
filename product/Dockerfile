@@ -1,6 +1,6 @@
-FROM golang:1.16.2-buster
+FROM golang:1.13
 
-WORKDIR /app
+WORKDIR /go/src/
 COPY . .
 RUN GOOS=linux go build -ldflags="-s -w"
 CMD ["./product"]
