@@ -29,7 +29,7 @@ pipeline {
                         dockerapp.push('lastest')
                         dockerapp.push("${env.BUILD_ID}")
                     }
-                }*
+                }
             }
         }
     }
