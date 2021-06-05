@@ -18,7 +18,7 @@ pipeline {
                         script {
                             dockerapp = docker.build(
                                 "cams7/intensivao-product:${env.BUILD_ID}",
-                                '-f ./product/Dockerfile .'
+                                '-f ./product/Dockerfile ./product'
                             )
                         }
                     }
